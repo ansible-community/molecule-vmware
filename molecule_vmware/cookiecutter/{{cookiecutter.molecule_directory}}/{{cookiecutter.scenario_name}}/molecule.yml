@@ -19,7 +19,7 @@ platforms:
     template: change me to template name # is to be used as a template when cloning an instance
     hardware:
       num_cpus: 2 # is cpu number to be configured to an instance
-      memory_mb: 2048 is memory size(MB) to be configured to an instance
+      memory_mb: 2048 # is memory size(MB) to be configured to an instance
     networks:
       - name: VM Network # is a port group to be assigned to an instance
         ip: 100.64.0.2 # is ip address to be configured to an instance
