@@ -1,0 +1,23 @@
+---
+{% raw -%}
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    - name: Destroy molecule instance(s)
+      vmware_guest:
+        hostname: "{{ molecule_yml.driver.vcenter_hostname }}"
+        username: "{{ molecule_yml.driver.vcenter_username }}"
+        password: "{{ molecule_yml.driver.vcenter_password }}"
+        validate_certs: "{{ molecule_yml.driver.validate_certs | default(false) }}"
+        datacenter: "{{ molecule_yml.driver.datacenter }}"
+        cluster: "{{ molecule_yml.driver.cluster | default(omit) }}"
+        esxi_hostname: "{{ molecule_yml.driver.esxi_hostname | default(omit) }}"
+        folder: "{{ molecule_yml.driver.folder }}"
+        name: "{{ item.name }}"
+        force: true
+        state: absent
+      with_items: "{{ molecule_yml.platforms }}"
+{%- endraw %}

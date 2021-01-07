@@ -1,0 +1,26 @@
+---
+{% raw -%}
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  vars:
+    keypair_path: "{{ lookup('env','MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
+  tasks:
+    - name: Make sure if linux or windows either specified
+      assert:
+        that:
+          - molecule_yml.driver.instance_os_type == "linux" or
+            molecule_yml.driver.instance_os_type == "windows"
+        fail_msg: "instance_os_type is possible only to specify linux or windows either"
+
+    - include_tasks: create_linux_instance.yml
+      when:
+        - molecule_yml.driver.instance_os_type == "linux"
+
+    - debug:
+        msg: "pass"
+      when:
+        - molecule_yml.driver.instance_os_type == "windows"
+{%- endraw %}

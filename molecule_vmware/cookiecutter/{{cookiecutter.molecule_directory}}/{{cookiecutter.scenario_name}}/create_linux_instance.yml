@@ -1,0 +1,73 @@
+---
+{% raw -%}
+- name: Create keypair
+  user:
+    name: "{{ lookup('env','USER') }}"
+    generate_ssh_key: true
+    ssh_key_file: "{{ keypair_path }}"
+  register: keypair_result
+
+- name: Create molecule instance(s)
+  vmware_guest:
+    hostname: "{{ molecule_yml.driver.vcenter_hostname }}"
+    username: "{{ molecule_yml.driver.vcenter_username }}"
+    password: "{{ molecule_yml.driver.vcenter_password }}"
+    validate_certs: "{{ molecule_yml.driver.validate_certs | default(false) }}"
+    datacenter: "{{ molecule_yml.driver.datacenter }}"
+    cluster: "{{ molecule_yml.driver.cluster | default(omit) }}"
+    esxi_hostname: "{{ molecule_yml.driver.esxi_hostname | default(omit) }}"
+    folder: "{{ molecule_yml.driver.folder }}"
+    name: "{{ item.name }}"
+    template: "{{ item.template }}"
+    hardware: "{{ item.hardware | default(omit) }}"
+    networks: "{{ item.networks }}"
+    customization:
+      hostname: "{{ item.name }}"
+      password: "{{ molecule_yml.driver.vm_password }}"
+    wait_for_ip_address: true
+    wait_for_customization: true
+    state: poweredon
+  register: server
+  loop: "{{ molecule_yml.platforms }}"
+
+- name: Create ssh directory and public key in guest OS
+  vmware_vm_shell:
+    hostname: "{{ molecule_yml.driver.vcenter_hostname }}"
+    username: "{{ molecule_yml.driver.vcenter_username }}"
+    password: "{{ molecule_yml.driver.vcenter_password }}"
+    validate_certs: "{{ molecule_yml.driver.validate_certs | default(false) }}"
+    datacenter: "{{ molecule_yml.driver.datacenter }}"
+    folder: "{{ molecule_yml.driver.folder }}"
+    vm_id: "{{ item.name }}"
+    vm_username: "{{ molecule_yml.driver.vm_username }}"
+    vm_password: "{{ molecule_yml.driver.vm_password }}"
+    vm_shell: /bin/bash
+    vm_shell_args: "-c 'mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo {{ keypair_result.ssh_public_key }} > ~/.ssh/authorized_keys'"
+    wait_for_process: true
+  loop: "{{ molecule_yml.platforms }}"
+
+- name: Populate instance config dict
+  set_fact:
+    instance_conf_dict: {
+      'instance': "{{ item.item.name }}",
+      'address': "{{ item.instance.ipv4 }}",
+      'user': "{{ molecule_yml.driver.vm_username }}",
+      'port': 22,
+      'identity_file': "{{ keypair_path }}"
+    }
+  loop: "{{ server.results }}"
+  register: instance_config_dict
+  when: server is changed
+
+- name: Convert instance config dict to a list.
+  set_fact:
+    instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
+  when: server is changed
+
+- name: Dump instance config
+  copy:
+    content: "{{ instance_conf | to_json | from_json | to_yaml }}"
+    dest: "{{ molecule_instance_config }}"
+    mode: 0644
+  when: server is changed
+{%- endraw %}
