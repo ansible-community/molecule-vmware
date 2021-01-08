@@ -1,0 +1,38 @@
+name: molecule-vmware-ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.tox_env }}-lint
+    strategy:
+      matrix:
+        include:
+          - tox_env: py36
+          - tox_env: py37
+          - tox_env: py38
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Find python version
+        id: py_ver
+        shell: python
+        if: ${{ contains(matrix.tox_env, 'py') }}
+        run: |
+          v = '${{ matrix.tox_env }}'.lstrip('py')
+          print('::set-output name=version::{0}.{1}'.format(v[0],v[1:]))
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.py_ver }}
+
+      - name: Install dependencies
+        run: pip install tox
+
+      - name: Run syntax test
+        run: tox -e `echo ${{ matrix.tox_env }}`-lint
