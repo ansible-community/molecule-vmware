@@ -32,7 +32,9 @@ jobs:
           python-version: ${{ matrix.py_ver }}
 
       - name: Install dependencies
-        run: pip install tox
+        run: |
+          pip install wheel
+          pip install tox
 
       - name: Run syntax test
         run: tox -e `echo ${{ matrix.tox_env }}`-lint
