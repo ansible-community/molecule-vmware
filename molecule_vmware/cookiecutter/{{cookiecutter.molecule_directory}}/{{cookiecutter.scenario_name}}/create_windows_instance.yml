@@ -52,7 +52,7 @@
 
              # Enable WinRM(HTTPS)
              $valueset = @{
-                     Hostname = $ENV:COMPUTERNAME
+                     Hostname = $hostname
                      CertificateThumbprint = $cert.Thumbprint
                  }
              $selectorset = @{
