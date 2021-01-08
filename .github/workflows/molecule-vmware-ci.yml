@@ -37,4 +37,4 @@ jobs:
           pip install tox
 
       - name: Run syntax test
-        run: tox -e `echo ${{ matrix.tox_env }}`-lint
+        run: tox -e ${{ matrix.tox_env }}-lint
