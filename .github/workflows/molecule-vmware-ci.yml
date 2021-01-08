@@ -80,7 +80,7 @@ jobs:
 
   gen-scenario:
     runs-on: ubuntu-latest
-    name: ${{ matrix.tox_env }}-gen-role
+    name: ${{ matrix.tox_env }}-gen-scenario
     strategy:
       matrix:
         include:
@@ -113,7 +113,7 @@ jobs:
           pip install tox
 
       - name: Run syntax test
-        run: tox -e ${{ matrix.tox_env }}-gen-role
+        run: tox -e ${{ matrix.tox_env }}-scenario
 
   packaging:
     runs-on: ubuntu-latest
