@@ -19,8 +19,7 @@
       when:
         - molecule_yml.driver.instance_os_type == "linux"
 
-    - debug:
-        msg: "pass"
+    - include_tasks: create_windows_instance.yml
       when:
         - molecule_yml.driver.instance_os_type == "windows"
 {%- endraw %}

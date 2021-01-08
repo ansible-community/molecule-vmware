@@ -53,7 +53,8 @@
       'address': "{{ item.instance.ipv4 }}",
       'user': "{{ molecule_yml.driver.vm_username }}",
       'port': 22,
-      'identity_file': "{{ keypair_path }}"
+      'identity_file': "{{ keypair_path }}",
+      'instance_os_type': "{{ molecule_yml.driver.instance_os_type }}"
     }
   loop: "{{ server.results }}"
   register: instance_config_dict

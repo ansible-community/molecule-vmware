@@ -14,6 +14,11 @@ driver:
   vm_username: change me to guest os administrator user name
   vm_password: change me to guest os user password
   instance_os_type: linux # is possible only specify [linux or windows]
+  # The below are possible parameters to be specified if using the windows template.
+  #winrm_port: 5986 # is WinRM port
+  #connection: winrm # is the connection type
+  #winrm_transport: ntlm # is the authentication type
+  #winrm_server_cert_validation: ignore # is the server certificate validation mode
 platforms:
   - name: instance # is an instance name
     template: change me to template name # is to be used as a template when cloning an instance
@@ -25,6 +30,10 @@ platforms:
         ip: 100.64.0.2 # is ip address to be configured to an instance
         netmask: 255.255.255.0 # is netmask to be configured to an instance
         gateway: 100.64.0.1 # is gateway to be configured to an instance
+    # The below are possible parameters to be specified if using the windows template.
+    #customization:
+    #  fullname: molecule # is the server owner name
+    #  orgname: molecule # is the organization name
 provisioner:
   name: {{ cookiecutter.provisioner_name }}
 verifier:
