@@ -54,7 +54,7 @@
              $valueset = @{
                      Hostname = $hostname
                      CertificateThumbprint = $cert.Thumbprint
-                 }
+             }
              $selectorset = @{
                  Transport = \"HTTPS\"
                  Address = \"*\"
