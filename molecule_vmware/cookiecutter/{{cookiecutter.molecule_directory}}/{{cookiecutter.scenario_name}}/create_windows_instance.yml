@@ -24,8 +24,19 @@
     wait_for_ip_address: true
     wait_for_customization: true
     state: poweredon
-  register: server
+  async: 7200
+  poll: 0
+  register: async_results
   loop: "{{ molecule_yml.platforms }}"
+
+- name: Check the test instance creation status
+  async_status:
+    jid: "{{ item.ansible_job_id }}"
+  loop: "{{ async_results.results }}"
+  register: server
+  until: server.finished
+  delay: 10
+  retries: 300
 
 - name: Enable WinRM
   vmware_vm_shell:
@@ -84,8 +95,8 @@
 - name: Populate instance config dict
   set_fact:
     instance_conf_dict: {
-      'instance': "{{ item.item.name }}",
-      'address': "{{ item.instance.ipv4 }}",
+      'instance': "{{ instance_info.item.item.name }}",
+      'address': "{{ instance_info.instance.ipv4 }}",
       'port': "{{ molecule_yml.driver.winrm_port | default(5986) }}",
       'connection': "{{ molecule_yml.driver.connection | default('winrm') }}",
       'user': "{{ molecule_yml.driver.vm_username }}",
@@ -95,6 +106,8 @@
       'instance_os_type': "{{ molecule_yml.driver.instance_os_type }}"
     }
   loop: "{{ server.results }}"
+  loop_control:
+    loop_var: instance_info
   register: instance_config_dict
   when: server is changed
 
