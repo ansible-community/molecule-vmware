@@ -75,7 +75,7 @@ jobs:
           pip install wheel
           pip install tox
 
-      - name: Run syntax test
+      - name: Run a role generating test
         run: tox -e ${{ matrix.tox_env }}-gen-role
 
   gen-scenario:
@@ -112,7 +112,7 @@ jobs:
           pip install wheel
           pip install tox
 
-      - name: Run syntax test
+      - name: Run a scenario generating test
         run: tox -e ${{ matrix.tox_env }}-scenario
 
   packaging:
@@ -134,5 +134,5 @@ jobs:
           pip install wheel
           pip install tox
 
-      - name: Run syntax test
+      - name: Run a packaging test
         run: tox -e packaging
