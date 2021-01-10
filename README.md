@@ -60,6 +60,7 @@ platforms:
         type: dhcp
   - name: instance2
     template: CentOS8
+    snapshot_src: linked_clone # is a snapshot name to be possible specified if you want to use linked clone.
     hardware:
       num_cpus: 2
       memory_mb: 2048
