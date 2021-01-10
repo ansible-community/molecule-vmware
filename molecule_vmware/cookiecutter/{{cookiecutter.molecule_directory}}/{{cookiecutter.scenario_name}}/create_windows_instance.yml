@@ -12,6 +12,7 @@
     folder: "{{ molecule_yml.driver.folder }}"
     name: "{{ item.name }}"
     template: "{{ item.template }}"
+    snapshot_src: "{{ item.snapshot_src | default(omit) }}"
     hardware: "{{ item.hardware | default(omit) }}"
     networks: "{{ item.networks }}"
     customization:
