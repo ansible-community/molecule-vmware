@@ -24,7 +24,7 @@
       register: async_results
       with_items: "{{ molecule_yml.platforms }}"
 
-    - name: Check the test instance creation status
+    - name: Check the test instance destroying status
       async_status:
         jid: "{{ item.ansible_job_id }}"
       loop: "{{ async_results.results }}"
