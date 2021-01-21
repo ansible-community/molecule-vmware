@@ -19,5 +19,17 @@
         name: "{{ item.name }}"
         force: true
         state: absent
+      async: 7200
+      poll: 0
+      register: async_results
       with_items: "{{ molecule_yml.platforms }}"
+
+    - name: Check the test instance creation status
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      loop: "{{ async_results.results }}"
+      register: server
+      until: server.finished
+      delay: 10
+      retries: 300
 {%- endraw %}
