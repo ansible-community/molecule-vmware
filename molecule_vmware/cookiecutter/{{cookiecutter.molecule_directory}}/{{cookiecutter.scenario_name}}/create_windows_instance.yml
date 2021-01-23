@@ -45,6 +45,7 @@
     password: "{{ molecule_yml.driver.vcenter_password }}"
     validate_certs: "{{ molecule_yml.driver.validate_certs | default(false) }}"
     datacenter: "{{ molecule_yml.driver.datacenter }}"
+    folder: "{{ molecule_yml.driver.folder }}"
     name: "{{ item.name }}"
   register: guest_state
   until: "guest_state.instance.guest_tools_status == 'guestToolsRunning'"
