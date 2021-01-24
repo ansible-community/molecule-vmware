@@ -42,6 +42,22 @@
   delay: 10
   retries: 300
 
+- name: Check vmware tools status
+  vmware_guest_info:
+    hostname: "{{ molecule_yml.driver.vcenter_hostname }}"
+    username: "{{ molecule_yml.driver.vcenter_username }}"
+    password: "{{ molecule_yml.driver.vcenter_password }}"
+    validate_certs: "{{ molecule_yml.driver.validate_certs | default(false) }}"
+    datacenter: "{{ molecule_yml.driver.datacenter }}"
+    folder: "{{ molecule_yml.driver.folder }}"
+    name: "{{ item.name }}"
+  register: guest_state
+  until: "guest_state.instance.guest_tools_status == 'guestToolsRunning'"
+  delay: 10
+  retries: 300
+  loop: "{{ molecule_yml.platforms }}"
+  ignore_errors: true
+
 - name: Create ssh directory and public key in guest OS
   vmware_vm_shell:
     hostname: "{{ molecule_yml.driver.vcenter_hostname }}"
