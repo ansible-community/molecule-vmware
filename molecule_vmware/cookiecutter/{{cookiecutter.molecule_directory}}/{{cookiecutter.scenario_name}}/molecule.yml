@@ -22,6 +22,7 @@ driver:
 platforms:
   - name: instance # is an instance name
     template: change me to template name # is to be used as a template when cloning an instance
+    #snapshot_src: change me to snapshot name # is a snapshot name to be possible specified if you want to use linked clone.
     hardware:
       num_cpus: 2 # is cpu number to be configured to an instance
       memory_mb: 2048 # is memory size(MB) to be configured to an instance
