@@ -49,6 +49,10 @@ driver:
   #connection: winrm # is the connection type
   #winrm_transport: ntlm # is the authentication type
   #winrm_server_cert_validation: ignore # is the server certificate validation mode
+  # The below list is possible to define DNS nameservers
+  #dns_servers:
+  #  - "8.8.8.8"
+  #  - "8.8.4.4"
 platforms:
   - name: instance1
     template: CentOS7

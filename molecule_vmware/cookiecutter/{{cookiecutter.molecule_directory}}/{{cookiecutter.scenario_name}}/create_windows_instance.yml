@@ -21,6 +21,7 @@
       fullname: "{{ item.customization.fullname | default('molecule') }}"
       orgname: "{{ item.customization.orgname | default('molecule') }}"
       password: "{{ molecule_yml.driver.vm_password }}"
+      dns_servers: "{{ molecule_yml.driver.dns_servers | default(omit) }}"
     wait_for_ip_address: true
     wait_for_customization: true
     state: poweredon

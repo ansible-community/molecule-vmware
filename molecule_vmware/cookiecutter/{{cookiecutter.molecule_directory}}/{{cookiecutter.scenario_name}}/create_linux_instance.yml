@@ -25,6 +25,7 @@
     customization:
       hostname: "{{ item.name }}"
       password: "{{ molecule_yml.driver.vm_password }}"
+      dns_servers: "{{ molecule_yml.driver.dns_servers | default(omit) }}"
     wait_for_ip_address: true
     wait_for_customization: true
     state: poweredon
