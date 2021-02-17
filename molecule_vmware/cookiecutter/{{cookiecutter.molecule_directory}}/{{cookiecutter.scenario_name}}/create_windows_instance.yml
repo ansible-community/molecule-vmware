@@ -17,7 +17,8 @@
     networks: "{{ item.networks }}"
     customization:
       hostname: "{{ item.name }}"
-      autlogon: false
+      autologon: false
+      autologoncount: 1
       fullname: "{{ item.customization.fullname | default('molecule') }}"
       orgname: "{{ item.customization.orgname | default('molecule') }}"
       password: "{{ molecule_yml.driver.vm_password }}"
