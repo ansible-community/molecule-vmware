@@ -22,7 +22,7 @@ class VMware(Driver):
     @property
     def default_safe_files(self):
         return [self.instance_config]
-    
+
     @property
     def login_cmd_template(self):
         return (
