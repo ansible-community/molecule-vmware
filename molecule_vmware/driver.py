@@ -22,6 +22,12 @@ class VMware(Driver):
     @property
     def default_safe_files(self):
         return [self.instance_config]
+    
+    @property
+    def login_cmd_template(self):
+        return (
+            "ssh {address} -l {user} -p {port} -i {identity_file}"
+        )		
 
     @property
     def default_ssh_connection_options(self):
