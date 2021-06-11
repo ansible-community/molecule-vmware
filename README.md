@@ -65,7 +65,7 @@ platforms:
   - name: instance2
     template: CentOS8
     snapshot_src: linked_clone # is a snapshot name to be possible specified if you want to use linked clone.
-	resource_pool: rpool # is a resource pool to be possible specified
+    resource_pool: rpool # is a resource pool to be possible specified
     hardware:
       num_cpus: 2
       memory_mb: 2048
