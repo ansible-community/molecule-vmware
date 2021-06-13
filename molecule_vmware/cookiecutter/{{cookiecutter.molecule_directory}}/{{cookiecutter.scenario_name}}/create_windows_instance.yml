@@ -15,6 +15,7 @@
     snapshot_src: "{{ item.snapshot_src | default(omit) }}"
     hardware: "{{ item.hardware | default(omit) }}"
     networks: "{{ item.networks }}"
+    resource_pool: "{{ item.resource_pool | default(omit) }}"
     customization:
       hostname: "{{ item.name }}"
       autologon: false
