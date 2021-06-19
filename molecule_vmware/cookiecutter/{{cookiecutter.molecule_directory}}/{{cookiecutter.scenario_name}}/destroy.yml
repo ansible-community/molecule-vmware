@@ -19,6 +19,7 @@
         name: "{{ item.name }}"
         force: true
         state: absent
+      no_log: true
       async: 7200
       poll: 0
       register: async_results

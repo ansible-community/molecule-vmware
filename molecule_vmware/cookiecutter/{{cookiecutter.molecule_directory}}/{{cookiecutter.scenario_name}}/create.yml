@@ -15,11 +15,17 @@
             molecule_yml.driver.instance_os_type == "windows"
         fail_msg: "instance_os_type is possible only to specify linux or windows either"
 
-    - include_tasks: create_linux_instance.yml
+    - name: Include create_linux_instance tasks
+      include_tasks: tasks/create_linux_instance.yml
       when:
         - molecule_yml.driver.instance_os_type == "linux"
 
-    - include_tasks: create_windows_instance.yml
+    - name: Include create_windows_instance tasks
+      include_tasks: tasks/create_windows_instance.yml
       when:
         - molecule_yml.driver.instance_os_type == "windows"
+
+  handlers:
+    - name: Import main handler tasks
+      import_tasks: handlers/main.yml
 {%- endraw %}
