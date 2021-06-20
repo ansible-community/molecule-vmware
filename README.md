@@ -1,6 +1,6 @@
 # Molecule VMware Plugin
 
-[![](https://badge.fury.io/py/molecule-vmware.svg)](https://badge.fury.io/py/molecule-vmware) ![molecule-vmware-ci](https://github.com/sky-joker/molecule-vmware/workflows/molecule-vmware-ci/badge.svg) ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)
+[![](https://badge.fury.io/py/molecule-vmware.svg)](https://badge.fury.io/py/molecule-vmware) ![molecule-vmware-ci](https://github.com/ansible-community/molecule-vmware/workflows/molecule-vmware-ci/badge.svg) ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)
 
 Molecule VMware is designed to allow use of VMware vSphere environment for provisioning test resources.  
 Please note that this driver is currently in its early stage of development.
