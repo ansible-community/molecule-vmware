@@ -13,7 +13,7 @@
         that:
           - molecule_yml.driver.instance_os_type == "linux" or
             molecule_yml.driver.instance_os_type == "windows"
-        fail_msg: "instance_os_type is possible only to specify linux or windows either"
+        fail_msg: "instance_os_type is required and must be either 'linux' or 'windows'"
 
     - name: Include create_linux_instance tasks
       include_tasks: tasks/create_linux_instance.yml
