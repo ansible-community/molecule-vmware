@@ -44,14 +44,20 @@ class VMware(Driver):
 
             if "instance_os_type" in d:
                 if d['instance_os_type'] == "linux":
-                    return {
+                    dl = {
                         "ansible_user": d["user"],
                         "ansible_host": d["address"],
                         "ansible_port": d["port"],
-                        "ansible_private_key_file": d["identity_file"],
                         "connection": "ssh",
                         "ansible_ssh_common_args": " ".join(self.ssh_connection_options),
                     }
+                    if d.get("become_pass"):
+                        dl["ansible_become_pass"] = d["become_pass"]
+                    if d.get("identity_file"):
+                        dl["ansible_private_key_file"] = d["identity_file"]
+                    if d.get("password"):
+                        dl["ansible_password"] = d["password"]
+                    return dl
 
                 if d['instance_os_type'] == "windows":
                     return {
